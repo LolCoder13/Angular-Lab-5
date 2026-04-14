@@ -6,6 +6,7 @@ import { MatTableDataSource,MatTableModule } from '@angular/material/table';
 import { MatButton } from '@angular/material/button';
 import { GradeStudent } from '../grade-student/grade-student';
 import { RouterLink } from "@angular/router";
+import { AssignCourseDialog } from '../assign-course-dialog/assign-course-dialog';
 
 @Component({
   selector: 'app-student-list',
@@ -36,6 +37,14 @@ export class StudentList {
   }
   openGradeDialog(student: StudentModel, enterAnimationDuration: string, exitAnimationDuration: string) {
     this.dialog.open(GradeStudent, {
+      width: '400px',
+      data: student,
+      enterAnimationDuration,
+      exitAnimationDuration
+    }).afterClosed().subscribe(() => this.ngOnInit());
+  }
+  openAssignCourseDialog(student: StudentModel, enterAnimationDuration: string, exitAnimationDuration: string) {
+    this.dialog.open(AssignCourseDialog, {
       width: '400px',
       data: student,
       enterAnimationDuration,

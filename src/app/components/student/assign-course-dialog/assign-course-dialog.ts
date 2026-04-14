@@ -6,49 +6,47 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Observable } from 'rxjs/internal/Observable';
-import { DepartmentModel } from '../../../models/department.model';
+import { Observable } from 'rxjs';
 import { CourseModel } from '../../../models/course/course.model';
-import { Student } from '../../../services/student';
 import { Course } from '../../../services/course';
+import { Student } from '../../../services/student';
 
 @Component({
-  selector: 'app-grade-student',
+  selector: 'app-assign-course-dialog',
   imports: [MatDialogModule, 
     AsyncPipe,
     ReactiveFormsModule, 
     MatFormFieldModule, 
     MatInputModule, 
     MatButtonModule,MatSelectModule],
-  templateUrl: './grade-student.html',
-  styleUrl: './grade-student.css',
+  templateUrl: './assign-course-dialog.html',
+  styleUrl: './assign-course-dialog.css',
 })
-export class GradeStudent {
+export class AssignCourseDialog {
   studentForm: FormGroup;
-  courses$!: Observable<CourseModel[]>;
+  courses$!: Observable<{crsId: number; crsName: string}[]>;
   ngOnInit(): void {
     console.log(this.data);
-    this.courses$ = this.courseService.getStudentAssignedCourses(this.data.id);
+    this.courses$ = this.courseService.getAssignableCourses(this.data.id);
+    console.log(this.courses$);
+    
   }
 
   constructor(
     private fb: FormBuilder,
     private courseService: Course,
-    private studentService: Student,
-    public dialogRef: MatDialogRef<GradeStudent>,
+    public dialogRef: MatDialogRef<AssignCourseDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.studentForm = this.fb.group({
-      crsId: [null, Validators.required],
-      grade: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
+      crsId: [null, Validators.required]
     });
   }
   onSubmit() {
     if (this.studentForm.valid) {
       console.log(this.data);
-      this.studentService.gradeStudent(this.data.id, this.studentForm.value.crsId, this.studentForm.value.grade).subscribe(() => {
+      this.courseService.assignCourseToStudent(this.data.id, this.studentForm.value.crsId).subscribe(() => {
         this.dialogRef.close(true); 
-        
       });
     }
     console.log(this.studentForm.value);

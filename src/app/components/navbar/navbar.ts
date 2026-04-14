@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem } from 'primeng/api';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialog } from '../auth/login/login-dialog/login-dialog';
 import { Login } from '../../services/auth/login';
@@ -24,7 +24,8 @@ export class Navbar implements OnInit, OnDestroy {
     constructor(
         private matDialog: MatDialog,
         public loginService: Login,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private router: Router
     ) {}
     ngOnInit() {
         this.updateMenu();
@@ -51,6 +52,7 @@ export class Navbar implements OnInit, OnDestroy {
     handleLogout() {
         this.loginService.logout();
         this.updateMenu();
+        this.router.navigate(['/']);
     }
     openLoginDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
         const dialogRef = this.matDialog.open(LoginDialog, {

@@ -40,6 +40,7 @@
     <td mat-cell *matCellDef="let element">
       <button mat-button [routerLink]="['/admin/view-grades', element.id]">View Grades</button>
       <button mat-button (click)="openGradeDialog(element, '500ms', '300ms')">Grade</button>
+      <button mat-button (click)="openAssignCourseDialog(element, '500ms', '300ms')">Assign Course</button>
       <button matButton="filled" (click)="deleteStudent(element.id)">Delete</button>
     </td>
   </ng-container>
