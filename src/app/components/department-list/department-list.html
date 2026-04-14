@@ -1,0 +1,46 @@
+<div class="container-header">
+  <button matButton="filled"  (click)="openAddDialog('500ms', '300ms')">
+    Add New Department
+  </button>
+</div>
+<table mat-table [dataSource]="departments" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="deptId">
+    <th mat-header-cell *matHeaderCellDef> Id</th>
+    <td mat-cell *matCellDef="let element"> {{element.deptId}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="deptName">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.deptName}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="deptDesc">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let element"> {{element.deptDesc}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="deptLocation">
+    <th mat-header-cell *matHeaderCellDef> Location </th>
+    <td mat-cell *matCellDef="let element"> {{element.deptLocation}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="stdCount">
+    <th mat-header-cell *matHeaderCellDef> Student Count </th>
+    <td mat-cell *matCellDef="let element"> {{element.stdCount}} </td>
+  </ng-container>
+  
+   <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button (click)="openEditDialog(element)">Edit</button>
+      <button mat-button (click)="deleteDepartment(element.deptId)">Delete</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+

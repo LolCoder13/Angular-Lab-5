@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "primeicons/primeicons.css";
+
+.success-snackbar .mdc-snackbar__surface {
+	background-color: #2e7d32 !important;
+	color: #ffffff !important;
+}
+
+.success-snackbar .mdc-snackbar__label,
+.success-snackbar .mat-mdc-snack-bar-action {
+	color: #ffffff !important;
+}
+
+.error-snackbar .mdc-snackbar__surface {
+	background-color: #c62828 !important;
+	color: #ffffff !important;
+}
+
+.error-snackbar .mdc-snackbar__label,
+.error-snackbar .mat-mdc-snack-bar-action {
+	color: #ffffff !important;
+}
