@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Add New Department</h2>
+<mat-dialog-content [formGroup]="deptForm">
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>ID</mat-label>
+        <input matInput formControlName="deptId">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="deptName">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="deptDesc">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Location</mat-label>
+        <input matInput formControlName="deptLocation">
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button matButton="filled" color="primary" (click)="onSubmit()">Save</button>
+</mat-dialog-actions>

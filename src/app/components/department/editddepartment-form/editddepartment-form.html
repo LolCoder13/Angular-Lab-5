@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Edit Department {{data.deptName}} with Id {{data.deptId}}</h2>
+<mat-dialog-content [formGroup]="deptForm">
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="deptName" value="data.deptName">
+        <mat-error *ngIf="deptForm.get('deptName')?.hasError('required')">
+            Name is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="deptDesc" value="data.deptDesc">
+        <mat-error *ngIf="deptForm.get('deptDesc')?.hasError('required')">
+            Description is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Location</mat-label>
+        <input matInput formControlName="deptLocation" value="data.deptLocation">
+        <mat-error *ngIf="deptForm.get('deptLocation')?.hasError('required')">
+            Location is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button matButton="filled" color="primary" (click)="onSubmit()" [disabled]="!deptForm.valid">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Grade {{data.stFname}} {{data.stLname}}</h2>
+<mat-dialog-content [formGroup]="studentForm">
+    <mat-form-field>
+        <mat-label>Select Course</mat-label>
+        <mat-select formControlName="crsId">
+            @for(course of (courses$ | async) ?? []; track course.crsId) {
+                <mat-option [value]="course.crsId">{{course.crsName}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Grade</mat-label>
+        <input matInput formControlName="grade">
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button matButton="filled" color="primary" (click)="onSubmit()">Save</button>
+</mat-dialog-actions>

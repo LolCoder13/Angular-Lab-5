@@ -1,0 +1,43 @@
+<h4 mat-dialog-title>Register</h4>
+<mat-dialog-content [formGroup]="registerForm">
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="stFname">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="stLname">
+    </mat-form-field>
+     <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Age</mat-label>
+        <input matInput type="number" formControlName="age">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address">
+    </mat-form-field>
+    <mat-form-field class="w-100">
+        <mat-label>Select</mat-label>
+        <mat-select formControlName="deptId">
+            @for(dept of (depts$ | async) ?? []; track dept.deptId) {
+                <mat-option [value]="dept.deptId">{{dept.deptName}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button matButton="filled" color="primary" (click)="onSubmit()">Register</button>
+</mat-dialog-actions>

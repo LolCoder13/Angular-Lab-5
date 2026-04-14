@@ -1,0 +1,9 @@
+<p-menubar [model]="items">
+    <ng-template #end>
+        <div class="flex items-center gap-2">
+            <button *ngIf="isLoggedIn" pButton type="button" label="Logout" icon="pi pi-sign-out" (click)="handleLogout()"></button>
+            <button *ngIf="!isLoggedIn" pButton type="button" label="Login" icon="pi pi-sign-in" class="p-button-text" (click)="openLoginDialog('300ms', '200ms')"></button>
+            <button *ngIf="!isLoggedIn" pButton type="button" label="Sign Up" icon="pi pi-user-plus" (click)="openRegisterDialog('300ms', '200ms')"></button>
+        </div>
+    </ng-template>
+</p-menubar>
