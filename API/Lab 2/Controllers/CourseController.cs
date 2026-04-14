@@ -2,6 +2,7 @@ using AutoMapper;
 using Lab_2.DTOs;
 using Lab_2.Models;
 using Lab_2.UoW;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,7 @@ namespace Lab_2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult Get()
         {
             return Ok(map.Map<List<CourseDTO>>(unit.CourseReps.CoursesWithDepartmentAndStudents().ToList()));
@@ -30,6 +32,7 @@ namespace Lab_2.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetById(int id)
         {
             var course = unit.CourseReps.GetCourseWithDepartment(id);
@@ -42,6 +45,7 @@ namespace Lab_2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult Post(Course course)
         {
             if (!unit.CourseReps.CanUseId(course.CrsId))
@@ -57,6 +61,7 @@ namespace Lab_2.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult Put(int id, Course course)
         {
             if (id != course.CrsId)
@@ -78,6 +83,7 @@ namespace Lab_2.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
             var deleted = unit.CourseReps.delete(id);
@@ -91,6 +97,7 @@ namespace Lab_2.Controllers
         }
 
         [HttpPost("{courseId}/students/{studentId}/grade")]
+        [Authorize(Roles ="admin")]
         public IActionResult AssignGrade(int courseId, string studentId, [FromBody] AssignGradeDTO request)
         {
             var course = unit.CourseReps.FindById(courseId);
@@ -139,9 +146,38 @@ namespace Lab_2.Controllers
             });
         }
         [HttpGet("Grades/{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAllStudentGrades(string id)
         {
-            return Ok(unit.StudentCourseReps.StudentCoursesWithDetails().Where(s=>s.StudentId==id).Select(sc => new { CrsId = sc.CourseId, sc.Course.CrsName, sc.Grade }).ToList());
+            return Ok(unit.StudentCourseReps.StudentCoursesWithDetails().Where(s=>s.StudentId==id&&s.Grade!=null).Select(sc => new { CrsId = sc.CourseId, sc.Course.CrsName, sc.Grade }).ToList());
+        }
+        [HttpGet("StudentCourses/{id}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetStudentAssigndCourses(string id)
+        {
+            return Ok(unit.StudentCourseReps.GetStudentCourses(id));
+        }
+        [HttpPost("Assign")]
+        [Authorize(Roles = "admin")]
+        public IActionResult AssignStudentToCourse(int crsId,string stdId)
+        {
+            var x = new StudentCourses() { CourseId = crsId, StudentId = stdId };
+            unit.StudentCourseReps.Add(x);
+            unit.save();
+            if (x.Id == 0)
+            {
+                return BadRequest();
+            }
+            return Created();
+        }
+        [HttpGet("AssignableCourses")]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetAssignableCourses(string id)
+        {
+            var y = unit.StudentCourseReps.StudentCoursesWithDetails().Where(c => c.StudentId == id).Select(a => new {crsId = a.CourseId,crsName=a.Course.CrsName}).ToList();
+            var x = unit.CourseReps.GetAll().Select(a => new { crsId = a.CrsId, crsName = a.CrsName });
+            var res = x.Except(y);
+            return Ok(res);
         }
     }
 

@@ -16,7 +16,10 @@ namespace Lab_2.Repositorires
                 .Include(sc => sc.Course)
                 .AsQueryable();
         }
-
+        public IQueryable GetStudentCourses(string id)
+        {
+            return context.StudentCourses.Where(a=>a.StudentId == id).Include(c=>c.Course).Select(a=>new {CrsId=a.CourseId,CrsName=a.Course.CrsName}).AsQueryable();
+        }
         public StudentCourses GetByStudentAndCourse(string studentId, int courseId)
         {
             return context.StudentCourses

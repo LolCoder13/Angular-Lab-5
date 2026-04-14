@@ -6,7 +6,7 @@ namespace Lab_2.Models
     {
         [Key]
         public int Id { get; set; }
-        public int Grade { get; set; }
+        public int? Grade { get; set; }
         public string StudentId { get; set; }
         public virtual IdentityStudent Student { get; set; }
         public int CourseId { get; set; }

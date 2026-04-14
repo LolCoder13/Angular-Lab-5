@@ -2,6 +2,7 @@
 using Lab_2.DTOs;
 using Lab_2.Models;
 using Lab_2.UoW;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,6 +49,7 @@ namespace Lab_2.Controllers
         [HttpPost]
         [EndpointSummary("Adds a new department")]
         [EndpointDescription("add a new department   ex:/api/departments method:post and the department in the body")]
+        [Authorize(Roles = "admin")]
         public IActionResult Post(CreateDepartmentDTO departmentDto)
         {
             if (!context.DeptReps.CanUseId(departmentDto.DeptId))
@@ -75,6 +77,7 @@ namespace Lab_2.Controllers
         [EndpointSummary("Edit An existing department")]
         [EndpointDescription("edit and exisitng department NOTE: Evne if you dont change a property still send it in the request or it will be null" +
             "   ex:/api/departments?id={} method:put and the department in the body")]
+        [Authorize(Roles = "admin")]
         public IActionResult Put(int id, CreateDepartmentDTO departmentDto)
         {
             if (id != departmentDto.DeptId)
@@ -110,6 +113,7 @@ namespace Lab_2.Controllers
         [HttpDelete("{id}")]
         [EndpointSummary("deletes a department from the database")]
         [EndpointDescription("deletes a department from the database NOTE:It is a hard delete so worry about the FK Constraints   ex:/api/departments?id={} method:delete")]
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
             var res = context.DeptReps.delete(id);

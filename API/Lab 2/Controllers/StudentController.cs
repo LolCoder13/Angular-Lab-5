@@ -144,6 +144,7 @@ namespace Lab_2.Controllers
         [EndpointDescription("Returns all identity students.")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Authorize(Roles = "admin")]
         public IActionResult Get()
         {
             var students = _Usermanager.Users.Where(u=>u.DeptId!=null).Include(u=>u.Dept)
@@ -272,6 +273,7 @@ namespace Lab_2.Controllers
         [EndpointDescription("Creates an identity student account.")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [Authorize(Roles = "admin")]
         public IActionResult Post(addStudentDTO student)
         {
             if (student == null)
@@ -332,6 +334,7 @@ namespace Lab_2.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+
         public IActionResult Put(string id, UpdateIdentityStudentDTO student)
         {
             if (student == null)
@@ -382,6 +385,7 @@ namespace Lab_2.Controllers
         [EndpointDescription("Deletes an identity student by identifier.")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(string id)
         {
             var student = _Usermanager.FindByIdAsync(id).Result;
